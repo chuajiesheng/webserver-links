@@ -7,3 +7,15 @@
 *.cmx
 *.cmxs
 *.cmxa
+
+eliom/local/*
+eliom/_deps/*
+eliom/_client/*
+eliom/_server/*
+*~
+*.DS_STORE
+*.depend
+*.client
+*.server
+*.type_mli
+*.log
