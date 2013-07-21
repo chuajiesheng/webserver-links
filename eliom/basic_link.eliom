@@ -9,34 +9,59 @@ module Basic_link_app =
       let application_name = "basic_link"
     end)
 
-let main_service =
-  Eliom_service.service ~path:[] ~get_params:Eliom_parameter.unit ()
+let hello_service =
+  Eliom_service.service
+    ~path:["hello"]
+    ~get_params:Eliom_parameter.unit ()
 
-let alt_service =
-  Eliom_service.service ~path:["alt"] ~get_params:Eliom_parameter.unit ()
+let world_service =
+  Eliom_service.service
+    ~path:["world"]
+    ~get_params:Eliom_parameter.unit ()
+
+let parameter_service =
+  Eliom_service.service
+    ~path:["para"]
+    ~get_params:Eliom_parameter.(string "input") ()
 
 let () =
   Basic_link_app.register
-    ~service:main_service
+    ~service:hello_service
     (fun () () ->
       Lwt.return
         (Eliom_tools.F.html
-           ~title:"basic-link-main"
+           ~title:"basic-link-hello"
            ~css:[["css";"basic_link.css"]]
            Html5.F.(body [
-             p [pcdata "main"];
-             a ~service:alt_service [pcdata "alt"] ();
+             p [pcdata "hello"];
+             p [a ~service:world_service [pcdata "world"] ()];
+             p [a ~service:parameter_service [pcdata "parameter"] ("custom")];
            ])))
 
 let () =
   Basic_link_app.register
-    ~service:alt_service
+    ~service:world_service
     (fun () () ->
       Lwt.return
         (Eliom_tools.F.html
-           ~title:"basic-link-alt"
+           ~title:"basic-link-world"
            ~css:[["css";"basic_link.css"]]
            Html5.F.(body [
-             a ~service:main_service [pcdata "main"] ();
-             p [pcdata "alt"];
+             p [a ~service:hello_service [pcdata "hello"] ()];
+             p [pcdata "world"];
+             p [a ~service:parameter_service [pcdata "parameter"] ("custom2")];
+           ])))
+
+let () =
+  Basic_link_app.register
+    ~service:parameter_service
+    (fun str () ->
+      Lwt.return
+        (Eliom_tools.F.html
+           ~title:"basic-link-parameter"
+           ~css:[["css";"basic_link.css"]]
+           Html5.F.(body [
+             p [a ~service:hello_service [pcdata "hello"] ()];
+             p [a ~service:world_service [pcdata "world"] ()];
+             p [strong [pcdata str]];
            ])))
