@@ -1,12 +1,12 @@
 
 #----------------------------------------------------------------------
-#           SETTINGS FOR THE ELIOM PROJECT basic-link
+#           SETTINGS FOR THE ELIOM PROJECT basic_link
 #----------------------------------------------------------------------
 
-PROJECT_NAME := basic-link
+PROJECT_NAME := basic_link
 
 # Source files for the server
-SERVER_FILES := $(wildcard *.eliomi *.eliom)
+SERVER_FILES := $(wildcard *.eliomi *.eliom *.ml)
 # Source files for the client
 CLIENT_FILES := $(wildcard *.eliomi *.eliom)
 
